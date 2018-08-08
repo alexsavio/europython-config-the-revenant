@@ -1,21 +1,22 @@
 FROM python:2.7.9
 
+ARG EPCON_BRANCH=ep2015
+
 # Upgrade System:
-RUN apt-get update && apt-get -y upgrade && apt-get -y autoremove
+RUN apt-get update && ⁠\
+		apt-get -y upgrade && ⁠\
+		apt-get -y autoremove
 
 # Download and install dependencies
 RUN apt-get -y install -qq build-essential libssl-dev libxrender-dev wget git wkhtmltopdf
 
-# ENTRYPOINT ["/usr/bin/wkhtmltopdf"]
-
 #Our Docker commands:
 
-RUN mkdir -p /usr/src/ep2015
-WORKDIR /usr/src/ep2015
+RUN mkdir -p /usr/src/$EPCON_BRANCH
+WORKDIR /usr/src/$EPCON_BRANCH
 
-RUN git clone -b ep2015 https://github.com/EuroPython/epcon.git .
-RUN pip install -r requirements.txt
-RUN pip install greenlet  # Required for both
-RUN pip install eventlet  # For eventlet workers
-RUN pip install gevent    # For gevent workers
-
+RUN git clone --depth=1 -b $EPCON_BRANCH https://github.com/EuroPython/epcon.git . && ⁠\
+    pip install -r requirements.txt && ⁠\
+    pip install greenlet && ⁠\
+    pip install eventlet && ⁠\
+    pip install gevent

@@ -1,6 +1,8 @@
 FROM debian:jessie
 MAINTAINER Alexandre Savio <alexsavio@gmail.com>
 
+ARG EPCON_BRANCH=ep2018
+
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
@@ -26,6 +28,6 @@ ENV WORKDIR /usr/src/errbot
 WORKDIR $WORKDIR
 
 RUN mkdir -p $WORKDIR && \
-    git clone https://github.com/PythonSanSebastian/pyperr.git -b ep2017 . && \
+    git clone https://github.com/PythonSanSebastian/pyperr.git -b $EPCON_BRANCH . && \
     git clone https://github.com/alexsavio/err-rss.git ./plugins/err-rss && \
     for f in `find -name requirements.txt`; do pip3 install -r $f; done;
